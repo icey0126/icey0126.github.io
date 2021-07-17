@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "commit": " hexo generate && hexo deploy && npx git-cz"
+    "commit": " hexo generate && hexo deploy && git add . &&npx git-cz"
   },
   "hexo": {
     "version": "5.4.0"

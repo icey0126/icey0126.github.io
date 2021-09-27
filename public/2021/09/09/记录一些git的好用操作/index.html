@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"icey0126.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="因为好久没写了，又懒得动脑子写新东西，就打算整理一些工作中常用的git命令。其实也是因为9月就要过去了，但我啥也没写过。。。 &amp;emsp;目录    1.清空所有没有加入暂存区的修改    2.清空已经加入暂存区的修改    3.改东西改到一半临时切分支    4.配置命令行代理    5.有几个分支，只想合并某个commit    6.拉取本地没有的远程分支    7.将本地某分支强推到到远程另">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一些git好用操作">
+<meta property="og:url" content="https://icey0126.github.io/2021/09/09/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%BA%9Bgit%E7%9A%84%E5%A5%BD%E7%94%A8%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Springhead">
+<meta property="og:description" content="因为好久没写了，又懒得动脑子写新东西，就打算整理一些工作中常用的git命令。其实也是因为9月就要过去了，但我啥也没写过。。。 &amp;emsp;目录    1.清空所有没有加入暂存区的修改    2.清空已经加入暂存区的修改    3.改东西改到一半临时切分支    4.配置命令行代理    5.有几个分支，只想合并某个commit    6.拉取本地没有的远程分支    7.将本地某分支强推到到远程另">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-09T15:05:24.000Z">
+<meta property="article:modified_time" content="2021-09-27T14:42:05.650Z">
+<meta property="article:author" content="Springhead">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://icey0126.github.io/2021/09/09/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%BA%9Bgit%E7%9A%84%E5%A5%BD%E7%94%A8%E6%93%8D%E4%BD%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>记录一些git好用操作 | Springhead</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Springhead</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">自言自语</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://icey0126.github.io/2021/09/09/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%BA%9Bgit%E7%9A%84%E5%A5%BD%E7%94%A8%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Springhead">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Springhead">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记录一些git好用操作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-09 23:05:24" itemprop="dateCreated datePublished" datetime="2021-09-09T23:05:24+08:00">2021-09-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-09-27 22:42:05" itemprop="dateModified" datetime="2021-09-27T22:42:05+08:00">2021-09-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS/" itemprop="url" rel="index"><span itemprop="name">CS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS/%E6%9D%82/" itemprop="url" rel="index"><span itemprop="name">杂</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>因为好久没写了，又懒得动脑子写新东西，就打算整理一些工作中常用的git命令。<br>其实也是因为9月就要过去了，但我啥也没写过。。。</p>
+<p>&emsp;<br><strong><h1 id="menu-git">目录</h1></strong><br>    <strong><a href="#git1">1.清空所有没有加入暂存区的修改</a></strong><br>    <strong><a href="#git2">2.清空已经加入暂存区的修改</a></strong><br>    <strong><a href="#git3">3.改东西改到一半临时切分支</a></strong><br>    <strong><a href="#git4">4.配置命令行代理</a></strong><br>    <strong><a href="#git5">5.有几个分支，只想合并某个commit</a></strong><br>    <strong><a href="#git6">6.拉取本地没有的远程分支</a></strong><br>    <strong><a href="#git7">7.将本地某分支强推到到远程另外一个指定分支</a></strong><br>    <strong><a href="#git8">8.本地切来切去干了一堆无用功想撤回</a></strong><br>    <strong><a href="#git9">9.我只想回滚某个文件</a></strong><br>    <strong><a href="#git10">10.虽然没有冲突，但我想手动合</a></strong><br>    <strong><a href="#git11">11.git的global config不小心设置了两个相同的key，想删删不掉</a></strong><br><br/></p>
+<p><strong><p id="git1">1.清空所有没有加入暂存区的修改</p></strong> </p>
+<p>一般可以用<code>git checkout .</code>作为后悔药，但是如果有新增或删除文件就需要下面这个命令了。</p>
+<p>可以放弃所有修改、新增、删除文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout . &amp;&amp; git clean -df</span><br></pre></td></tr></table></figure>
+<p><strong><a href="#menu-git">回到目录</a></strong><br>&emsp;<br><strong><p id="git2">2.清空已经加入暂存区的修改</p></strong> </p>
+<p>如果已经不小心用了<code>git add .</code>把修改加入了暂存区，但是又中途不想要这个修改了，可以如下操作。<br>这个做法可能比较邪道，但是能用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git stash</span><br></pre></td></tr></table></figure>
+
+<p>至于有没有强迫症，要不要删掉这个stash的内容就看自己习惯了。<br><strong><a href="#menu-git">回到目录</a></strong><br>&emsp;<br><strong><p id="git3">3.改东西改到一半临时切分支</p></strong> </p>
+<p>经常遇到在某个功能分支上开发到一半被临时叫去主分支修bug，代码写了一半又因为各种原因不想提交，就可以用下面的命令暂存修改。</p>
+<p>首先在当前分支输入如下命令暂存修改</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git stash</span><br></pre></td></tr></table></figure>
+
+<p>然后切出去改东西，等全部操作完了再切到要把暂存内容放出来的分支，使用如下命令把暂存的东西放出来。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash pop</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，用stash存的一个个内容可以理解成一个栈，先进后出。</p>
+<p>也就是说，如果有多个分支都做了stash这个操作来暂存内容，那么你直接使用<code>git stash pop</code>放出暂存内容的时候，遵循先进后出的规则，放出的一定是你最后那次暂存的东西，而且也会自动从这个暂存栈删除这次暂存。但有的时候我们又希望跳着来。就可以用下面这个命令先查看这个暂存栈里的暂存记录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git stash list</span><br><span class="line"></span><br><span class="line">stash@&#123;0&#125;: WIP on branch1: ffb8e1b Merge pull request <span class="comment">#202 from branch2</span></span><br><span class="line">stash@&#123;1&#125;: WIP on branch2: fc36bd0 Merge pull request <span class="comment">#171 from branch</span></span><br><span class="line">stash@&#123;2&#125;: WIP on branch3: 404474c commit message</span><br></pre></td></tr></table></figure>
+
+<p>根据提示内容找到想要放出的暂存记录，使用如下命令放出暂存，不过使用下面这个命令是不会从暂存栈删除这条暂存记录的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash apply stash@&#123;1&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><a href="#menu-git">回到目录</a></strong><br>&emsp;<br><strong><p id="git4">4.配置命令行代理</p></strong> </p>
+<p>其实这个命令自从github版本更新以后已经没什么意义了但是还是写下。</p>
+<p>由于众所周知的原因，在国内如果是使用https的地址来git clone仓库到本地，比如这种地址<code>https://github.com/用户名/仓库名.git</code>，那么在使用git push时经常会遇到网络问题。<br>以前用windows系统的时候把代理配置手动改成全局就可以了，但是换了mac之后好像没啥用。后来才知道mac的命令行需要另外配置代理命令才能走代理push。实际的端口号需要找自己的ssr配置来看。我这个应该算是比较常见的配置。命令行回车一下再push就畅通无阻了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=socks5://127.0.0.1:1086;</span><br><span class="line"><span class="built_in">export</span> https_proxy=socks5://127.0.0.1:1086;</span><br></pre></td></tr></table></figure>
+
+<p>但是这个命令自从上次github更新之后就没意义了，gayhub现在为了安全问题好像需要配置一堆东西才能使用https来push代码，因为我过于讨厌配置这件事，就直接把https改成ssh了。<del>早知今日何必当初</del></p>
+<p>下面这个是把原本的https换成ssh的命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin （ssh-url）</span><br></pre></td></tr></table></figure>
+<p><strong><a href="#menu-git">回到目录</a></strong><br>&emsp;<br><strong><p id="git5">5.有几个分支，只想合并某个commit</p></strong><br>实际场景中经常有基于某个分支开出的不同分支来应付不同项目的需求，有时候某个分支上更新的某个功能另外一个分支也需要，并且不希望吧这个分支上除了新功能以外的内容合过去，这个时候就可以用cherry-pick提交某个指定的commit。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick  要合过来的分支名 </span><br><span class="line">//写分支名会合并这个分支最新的一次commit</span><br><span class="line">//也可以写某个commit的<span class="built_in">hash</span>值，如果是commit的<span class="built_in">hash</span>值那么只会合并这个指定的commit</span><br><span class="line">git <span class="built_in">log</span> //可以用来查看当前分支的commit历史，用来查询commit的<span class="built_in">hash</span>值</span><br></pre></td></tr></table></figure>
+
+<p>如果cherry-pick遇到了冲突</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 先修改冲突</span><br><span class="line">git status //查看修改</span><br><span class="line">git add . //添加修改</span><br><span class="line">git cherry-pick --<span class="built_in">continue</span> //继续cherry-pick</span><br></pre></td></tr></table></figure>
+<p><strong><a href="#menu-git">回到目录</a></strong><br>&emsp;<br><strong><p id="git6">6.拉取本地没有的远程分支</p></strong><br>经常有多人同时开发，然后需要拉取别人已经提交的开发好的分支进行修改。</p>
+<p>需要先<code>git fetch --all</code>拉取远程所有分支。<br>然后使用<code>git checkout 要拉取的分支名</code>切到想拉的分支上，这时候本地已经是远程的那个分支了。</p>
+<p><del>我怎么越写越敷衍了</del><br>&emsp;<br><strong><p id="git7">7.将本地某分支强推到到远程另外一个指定分支</p></strong><br>当各种奇怪操作导致了无可救药的问题时，就只能强推了。</p>
+<p>一般情况下分支之间不会有太大不同，可以把本地能用的分支强推到线上的这个分支上，再用pr抢救下。但。。。架不住妖魔鬼怪的操作导致主分支完全不想要了，这个时候可以偷懒的用以下这个危险操作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin 本地分支名:想推送的远程分支名 -f </span><br></pre></td></tr></table></figure>
+<p><strong><a href="#menu-git">回到目录</a></strong><br>&emsp;<br><strong><p id="git8">8.本地切来切去干了一堆无用功想撤回</p></strong><br>输入<code>git reflog</code>查看时间顺序下的所有操作,大概长下面这样</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1a8bebe (HEAD -&gt; develop, origin/develop) HEAD@&#123;0&#125;: commit: fix: 🐛 change avatar</span><br><span class="line">a09ce5a HEAD@&#123;1&#125;: commit: feat: 🎸 add something</span><br><span class="line">f6b66b7 HEAD@&#123;2&#125;: commit: fix: 🎸 fix bug</span><br></pre></td></tr></table></figure>
+<p>找到想要回滚的时间点，比如我想回到<code>commit: feat: 🎸 add something</code>这个commit,对应的是<code>HEAD@&#123;1&#125;</code> </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD@&#123;1&#125;</span><br></pre></td></tr></table></figure>
+<p>这个时候所有的内容都会彻底回到这个commit的版本，新发生的变更将会丢失。需要注意的是，回滚的版本只能是已经提交了commit，如果啥也没提交，那reflog后啥也没有，那你也回不去了。所以记得勤提交。</p>
+<p>这个操作配合<code>git push origin 想回滚的分支名 -f</code>就可以实现远程分支的回滚。</p>
+<p>不过hard还是要慎用，虽然后悔药有用，但是你放弃的那些commit也不见了。<del>就像脑子里进的那些水</del><br><strong><a href="#menu-git">回到目录</a></strong><br>&emsp;<br><strong><p id="git9">9.我只想回滚某个文件</p></strong><br>这个也挺常见的，有时候改了一大堆，发现某个文件的某个版本才是对的，就只想回滚这个文件。<br>首先找到正确版本的文件所在的commit的hash值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span> ./README.md //想修改的文件路径</span><br><span class="line"></span><br><span class="line">commit <span class="built_in">hash</span>值1 (HEAD -&gt; develop)</span><br><span class="line">Merge: 12857b7 8fc2e03</span><br><span class="line">Author: icey0126 </span><br><span class="line">Date:   Tue Jun 29 16:01:41 2021 +0800</span><br><span class="line"></span><br><span class="line">    fix: 🐛 fix bug</span><br><span class="line"></span><br><span class="line">commit <span class="built_in">hash</span>值2</span><br><span class="line">Author: icey0126 </span><br><span class="line">Date:   Tue Jun 29 15:55:41 2021 +0800</span><br><span class="line"></span><br><span class="line">    fix: 🐛 fix bug2</span><br></pre></td></tr></table></figure>
+<p>找到了<code>fix bug2</code>这个commit的hash值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="built_in">hash</span>值2 ./README.md //利用<span class="built_in">hash</span>回滚特定文件，注意，这里为了方便操作，使用<span class="built_in">hash</span>的前六位就可以</span><br></pre></td></tr></table></figure>
+
+<p>回滚后注意需要提交。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">&#x27;回滚README.md&#x27;</span> </span><br></pre></td></tr></table></figure>
+<p><strong><a href="#menu-git">回到目录</a></strong><br>&emsp;<br><strong><p id="git10">10.虽然没有冲突，但我想手动合</p></strong><br>怎么会有这么奇怪的要求。<del>还真有</del><br>在某个开发分支，想合并主分支时，虽然并没有冲突，但是想手动确认修改。可以配置如下命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --no-commit --no-ff 要合进来的分支名</span><br></pre></td></tr></table></figure>
+<p>但这个命令有时候会不生效，我也不知道原因。<del>我只是想凑个10</del><br><strong><a href="#menu-git">回到目录</a></strong><br>&emsp;<br><strong><p id="git11">11.git的global config不小心设置了两个相同的key，想删删不掉</p></strong><br>突然想起来的一个比较常见的问题，有时候用<code>git config --global key value</code>设置全局配置时会不小心给同一个key设置了不同的value。</p>
+<p>本来吧，用<code>git config --global --unset key</code>就可以删掉这个全局配置了，但是出现了同一个key多个value的时候就会报错不让你这么操作。</p>
+<p>先用<code>git config --global -l</code>看看自己做了什么（看看全局配置了配了哪些参数）。</p>
+<p>然后可以用正规的办法删掉这个key对应的所有value</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --<span class="built_in">unset</span> -all key</span><br></pre></td></tr></table></figure>
+
+<p>或者用不正规的办法，把这个key对应的值全部替换成我们设定的值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --replace-all key <span class="string">&quot;随便给个value&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>由于git config的机制，只会保留一个相同的键值对，就可以通过正常的删除单个的操作来删除了。<br><strong><a href="#menu-git">回到目录</a></strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/10/%E5%85%B3%E9%94%AE%E8%AF%8D%E9%AB%98%E4%BA%AE%E7%9C%9F%E5%A5%BD%E7%8E%A9doge/" rel="prev" title="关键词高亮真好玩doge.jpg">
+      <i class="fa fa-chevron-left"></i> 关键词高亮真好玩doge.jpg
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#menu-git"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Springhead"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">Springhead</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/icey0126" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;icey0126" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/567425/" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;567425&#x2F;" rel="noopener" target="_blank"><i class="fab fa-bilibili fa-fw"></i>Bilibili</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Springhead</span>
+</div>
+
+        
+<div class="busuanzi-count" style="display: none;">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

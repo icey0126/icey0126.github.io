@@ -1,0 +1,28 @@
+---
+title: 记录一些git和node命令的好用操作
+date: 2021-09-09 23:05:24
+tags: 
+- git
+- npm
+categories: 
+- CS
+- 杂
+---
+
+因为好久没写了，又懒得弄脑子写新的东西，就打算整理一些工作中常用的命令。
+
+**目录**
+    **[一、git](#git)**
+    **[二、npm](#npm)**
+
+<br/>
+
+**<p id="git">一、git的一些好用操作</p>**
+
+**1.清空所有没有加入暂存区的修改** 
+一般可以用<table><tr><td]
+''>git checkout .</table>
+可以放弃所有修改、新增、删除文件
+```bash
+    git checkout . && git clean -df
+```

@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"icey0126.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="因为好久没写了，又懒得动脑子写新东西，就打算整理一些工作中常用的git命令。其实也是因为9月就要过去了，但我啥也没写过。。。 &amp;emsp;目录    1.清空所有没有加入暂存区的修改    2.清空已经加入暂存区的修改    3.改东西改到一半临时切分支    4.配置命令行代理    5.有几个分支，只想合并某个commit    6.拉取本地没有的远程分支    7.将本地某分支强推到到远程另">
+  <meta name="description" content="因为好久没写了，又懒得动脑子写新东西，就打算整理一些工作中常用的git命令。其实也是因为9月就要过去了，但我啥文章也没写过。。。 &amp;emsp;目录    1.清空所有没有加入暂存区的修改    2.清空已经加入暂存区的修改    3.改东西改到一半临时切分支    4.配置命令行代理    5.有几个分支，只想合并某个commit    6.拉取本地没有的远程分支    7.将本地某分支强推到到远">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记录一些git好用操作">
 <meta property="og:url" content="https://icey0126.github.io/2021/09/09/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%BA%9Bgit%E7%9A%84%E5%A5%BD%E7%94%A8%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Springhead">
-<meta property="og:description" content="因为好久没写了，又懒得动脑子写新东西，就打算整理一些工作中常用的git命令。其实也是因为9月就要过去了，但我啥也没写过。。。 &amp;emsp;目录    1.清空所有没有加入暂存区的修改    2.清空已经加入暂存区的修改    3.改东西改到一半临时切分支    4.配置命令行代理    5.有几个分支，只想合并某个commit    6.拉取本地没有的远程分支    7.将本地某分支强推到到远程另">
+<meta property="og:description" content="因为好久没写了，又懒得动脑子写新东西，就打算整理一些工作中常用的git命令。其实也是因为9月就要过去了，但我啥文章也没写过。。。 &amp;emsp;目录    1.清空所有没有加入暂存区的修改    2.清空已经加入暂存区的修改    3.改东西改到一半临时切分支    4.配置命令行代理    5.有几个分支，只想合并某个commit    6.拉取本地没有的远程分支    7.将本地某分支强推到到远">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-09T15:05:24.000Z">
-<meta property="article:modified_time" content="2021-09-27T14:42:05.650Z">
+<meta property="article:modified_time" content="2021-11-20T14:34:13.931Z">
 <meta property="article:author" content="Springhead">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-09-27 22:42:05" itemprop="dateModified" datetime="2021-09-27T22:42:05+08:00">2021-09-27</time>
+                <time title="修改时间：2021-11-20 22:34:13" itemprop="dateModified" datetime="2021-11-20T22:34:13+08:00">2021-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -231,7 +231,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>因为好久没写了，又懒得动脑子写新东西，就打算整理一些工作中常用的git命令。<br>其实也是因为9月就要过去了，但我啥也没写过。。。</p>
+        <p>因为好久没写了，又懒得动脑子写新东西，就打算整理一些工作中常用的git命令。<br>其实也是因为9月就要过去了，但我啥文章也没写过。。。</p>
 <p>&emsp;<br><strong><h1 id="menu-git">目录</h1></strong><br>    <strong><a href="#git1">1.清空所有没有加入暂存区的修改</a></strong><br>    <strong><a href="#git2">2.清空已经加入暂存区的修改</a></strong><br>    <strong><a href="#git3">3.改东西改到一半临时切分支</a></strong><br>    <strong><a href="#git4">4.配置命令行代理</a></strong><br>    <strong><a href="#git5">5.有几个分支，只想合并某个commit</a></strong><br>    <strong><a href="#git6">6.拉取本地没有的远程分支</a></strong><br>    <strong><a href="#git7">7.将本地某分支强推到到远程另外一个指定分支</a></strong><br>    <strong><a href="#git8">8.本地切来切去干了一堆无用功想撤回</a></strong><br>    <strong><a href="#git9">9.我只想回滚某个文件</a></strong><br>    <strong><a href="#git10">10.虽然没有冲突，但我想手动合</a></strong><br>    <strong><a href="#git11">11.git的global config不小心设置了两个相同的key，想删删不掉</a></strong><br><br/></p>
 <p><strong><p id="git1">1.清空所有没有加入暂存区的修改</p></strong> </p>
 <p>一般可以用<code>git checkout .</code>作为后悔药，但是如果有新增或删除文件就需要下面这个命令了。</p>
@@ -319,7 +319,10 @@
     <a href="/2021/08/10/%E5%85%B3%E9%94%AE%E8%AF%8D%E9%AB%98%E4%BA%AE%E7%9C%9F%E5%A5%BD%E7%8E%A9doge/" rel="prev" title="关键词高亮真好玩doge.jpg">
       <i class="fa fa-chevron-left"></i> 关键词高亮真好玩doge.jpg
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/10/26/K8S%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="K8S学习笔记">
+      K8S学习笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -394,7 +397,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -407,7 +410,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

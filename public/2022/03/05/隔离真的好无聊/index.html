@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"icey0126.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="上周因为做了一个全文搜索的功能一直在烧脑细胞。写接口真好玩、搜索真好玩、算关键词高亮坐标真好玩 但其实这篇不打算写正经内容。写关键词的时候再次发现自己的递归水平实在太过废物，还是同事帮忙一起看才搞定了高亮算法，不过好像被我搞出了新bug，手动doge。想找个时间集中刷一刷递归的题，为什么都快一年了我还是这么菜，悲伤。 虽然前两周搬到了公司40min路程的新家，但由于最近心情巨差导致几乎一直在生病都">
+  <meta name="description" content="虽然我也很想提起劲写点有意思的bug奇遇记，但事实是，最近几个月我真的完全提不起劲。 小区惨遭隔离，要至少坐七天牢。按理说在家办公应该挺爽的，但是真！的！好！无！聊！啊！ 这几个月编程水平没什么长进倒是配流水线配得越来越熟练了。看着项目越来越多的环境，真的越看越脑子疼。尤其是一个功能所有分支都要，但是不同分支又不能直接乱合，需要一个个合到各个分支，同步起来真是恶心，因为实在太看不下去了就搞了个gi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关键词高亮真好玩doge.jpg">
-<meta property="og:url" content="https://icey0126.github.io/2021/08/10/%E5%85%B3%E9%94%AE%E8%AF%8D%E9%AB%98%E4%BA%AE%E7%9C%9F%E5%A5%BD%E7%8E%A9doge/index.html">
+<meta property="og:title" content="隔离真的好无聊">
+<meta property="og:url" content="https://icey0126.github.io/2022/03/05/%E9%9A%94%E7%A6%BB%E7%9C%9F%E7%9A%84%E5%A5%BD%E6%97%A0%E8%81%8A/index.html">
 <meta property="og:site_name" content="Springhead">
-<meta property="og:description" content="上周因为做了一个全文搜索的功能一直在烧脑细胞。写接口真好玩、搜索真好玩、算关键词高亮坐标真好玩 但其实这篇不打算写正经内容。写关键词的时候再次发现自己的递归水平实在太过废物，还是同事帮忙一起看才搞定了高亮算法，不过好像被我搞出了新bug，手动doge。想找个时间集中刷一刷递归的题，为什么都快一年了我还是这么菜，悲伤。 虽然前两周搬到了公司40min路程的新家，但由于最近心情巨差导致几乎一直在生病都">
+<meta property="og:description" content="虽然我也很想提起劲写点有意思的bug奇遇记，但事实是，最近几个月我真的完全提不起劲。 小区惨遭隔离，要至少坐七天牢。按理说在家办公应该挺爽的，但是真！的！好！无！聊！啊！ 这几个月编程水平没什么长进倒是配流水线配得越来越熟练了。看着项目越来越多的环境，真的越看越脑子疼。尤其是一个功能所有分支都要，但是不同分支又不能直接乱合，需要一个个合到各个分支，同步起来真是恶心，因为实在太看不下去了就搞了个gi">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-08-10T15:42:33.000Z">
-<meta property="article:modified_time" content="2021-08-10T16:24:32.904Z">
+<meta property="article:published_time" content="2022-03-05T10:56:33.000Z">
+<meta property="article:modified_time" content="2022-03-05T11:49:37.068Z">
 <meta property="article:author" content="Springhead">
 <meta property="article:tag" content="生活">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://icey0126.github.io/2021/08/10/%E5%85%B3%E9%94%AE%E8%AF%8D%E9%AB%98%E4%BA%AE%E7%9C%9F%E5%A5%BD%E7%8E%A9doge/">
+<link rel="canonical" href="https://icey0126.github.io/2022/03/05/%E9%9A%94%E7%A6%BB%E7%9C%9F%E7%9A%84%E5%A5%BD%E6%97%A0%E8%81%8A/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>关键词高亮真好玩doge.jpg | Springhead</title>
+  <title>隔离真的好无聊 | Springhead</title>
   
 
 
@@ -167,7 +167,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://icey0126.github.io/2021/08/10/%E5%85%B3%E9%94%AE%E8%AF%8D%E9%AB%98%E4%BA%AE%E7%9C%9F%E5%A5%BD%E7%8E%A9doge/">
+    <link itemprop="mainEntityOfPage" href="https://icey0126.github.io/2022/03/05/%E9%9A%94%E7%A6%BB%E7%9C%9F%E7%9A%84%E5%A5%BD%E6%97%A0%E8%81%8A/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -180,7 +180,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          关键词高亮真好玩doge.jpg
+          隔离真的好无聊
         </h1>
 
         <div class="post-meta">
@@ -189,16 +189,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-08-10 23:42:33" itemprop="dateCreated datePublished" datetime="2021-08-10T23:42:33+08:00">2021-08-10</time>
+              <time title="创建时间：2022-03-05 18:56:33 / 修改时间：19:49:37" itemprop="dateCreated datePublished" datetime="2022-03-05T18:56:33+08:00">2022-03-05</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-11 00:24:32" itemprop="dateModified" datetime="2021-08-11T00:24:32+08:00">2021-08-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -227,14 +221,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>上周因为做了一个全文搜索的功能一直在烧脑细胞。<br><del>写接口真好玩、搜索真好玩、算关键词高亮坐标真好玩</del></p>
-<p>但其实这篇不打算写正经内容。写关键词的时候再次发现自己的递归水平实在太过废物，还是同事帮忙一起看才搞定了高亮算法，不过好像被我搞出了新bug，手动doge。想找个时间集中刷一刷递归的题，为什么都快一年了我还是这么菜，悲伤。</p>
-<p>虽然前两周搬到了公司40min路程的新家，但由于最近心情巨差导致几乎一直在生病都没时间好好学新东西，悲伤*2。</p>
-<p>eve手游真是和它的端游一脉相承，至今没有找到它的正确玩法，不愧是游戏自由度标杆之一，玩不明白。</p>
-<p>好在最近还有一两部喜欢的番出第二季了可以收获短暂的快乐。</p>
-<p>前两天还和一个朋友在人广附近的几个公园暴走了2.5w步，这么热的天我们真是太强了。运动原来真的能使人快乐，虽然只有短暂的几小时作用，悲伤*3。</p>
-<p>真是写了一篇巨无聊的自言自语流水账。</p>
-<p>所以石之海为什么要明年一月才出！好吧，出了等看到承太郎结局我就要悲伤*4了。</p>
+        <p>虽然我也很想提起劲写点有意思的bug奇遇记，但事实是，最近几个月我真的完全提不起劲。</p>
+<p>小区惨遭隔离，要至少坐七天牢。按理说在家办公应该挺爽的，但是真！的！好！无！聊！啊！</p>
+<p>这几个月编程水平没什么长进倒是配流水线配得越来越熟练了。看着项目越来越多的环境，真的越看越脑子疼。尤其是一个功能所有分支都要，但是不同分支又不能直接乱合，需要一个个合到各个分支，同步起来真是恶心，因为实在太看不下去了就搞了个git flow的脚本自动提pr，但感觉好像也没方便多少，但我感觉至少我不操心同步问题了。</p>
+<p>不过还是干了点好玩的事的，为了让自己这种死宅不会因为不动而猝死报了一个乒乓球班，<del>虽然每次打完球喘半天</del>。但奈何我太菜到现在还不能和人对打起来，<del>结果被人吐槽功利心太重</del>，但当你周围全是一些可以随意切菜的同学时，朋友，你难道不会焦虑吗。<del>没错我就是功利心太重</del></p>
+<p>对了，还认识了一个我一样脑子进水的倒霉蛋大佬，有幸被他拉进了一个游戏汉化组做苦力，群里的聊天内容让我深刻认知到自己脱宅已久，不知道steam上的补丁啥时候能出来。</p>
+<p>其实想想让我无聊的主要原因可能还是因为最近卸载了微博。这两月的首页看得我整个人更丧了，干脆卸载为敬。</p>
+<p>本来好不容易多出来这么多时间其实可以静下心来学自己感兴趣的东西，可惜就是静不下来，只能看看杂书解闷。脑子疼。</p>
+<p>要形容我有多无聊呢，我甚至已经开始学习如何化妆了。</p>
 
     </div>
 
@@ -253,13 +247,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/08/02/%E5%8F%AF%E9%85%8D%E7%BD%AE%E6%8A%BD%E5%A5%96%E8%BD%AC%E7%9B%98%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91%E5%92%8C%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/" rel="prev" title="可配置抽奖转盘遇到的一些坑和处理方法">
-      <i class="fa fa-chevron-left"></i> 可配置抽奖转盘遇到的一些坑和处理方法
+    <a href="/2021/11/24/leetcode%E7%9C%9F%E5%A5%BD%E7%8E%A9/" rel="prev" title="leetcode真好玩">
+      <i class="fa fa-chevron-left"></i> leetcode真好玩
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/09/09/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%BA%9Bgit%E7%9A%84%E5%A5%BD%E7%94%A8%E6%93%8D%E4%BD%9C/" rel="next" title="记录一些git好用操作">
-      记录一些git好用操作 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     

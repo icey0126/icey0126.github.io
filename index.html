@@ -161,6 +161,86 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://icey0126.github.io/2022/03/25/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AA%E6%97%A0%E6%B3%95%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F%E7%9A%84%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Springhead">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Springhead">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/25/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AA%E6%97%A0%E6%B3%95%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F%E7%9A%84%E5%9D%91/" class="post-title-link" itemprop="url">记录一个无法构建镜像的坑</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-25 21:54:28 / 修改时间：22:32:41" itemprop="dateCreated datePublished" datetime="2022-03-25T21:54:28+08:00">2022-03-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS/" itemprop="url" rel="index"><span itemprop="name">CS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS/%E9%83%A8%E7%BD%B2/" itemprop="url" rel="index"><span itemprop="name">部署</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在和甲方进行技术转移时遇到的一个坑，在我本地构建镜像完全没有问题，但是甲方那边各种报错。其中经历了无数的坑，但是记录一下一个最坑的。</p>
+<p>使用相同仓库相同Dockerfile在甲方的机子上构建报了下面这个错，原本以为是甲方内部网络镜像源的问题，但是细问以后发现甲方的电脑能连外网。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error parsing reference: &quot;node:10.15.1 as build&quot; is not a valid repository/tag: invalid reference format</span><br></pre></td></tr></table></figure>
+
+<p>迷幻的是，问了公司的后端小哥，他们后端的镜像之前在甲方机器上是正常构建的。而且甲方机器上也能正常pull这个node:10.15.1的镜像。遂开始研究起我们前端的Dockerfile到底有什么魔力能让甲方的电脑就是构建不成功。</p>
+<p>反正最后搜来搜去发现了一个stack overflow上的提问，<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48848020/dockerfile-is-not-a-valid-repository-tag-invalid-reference-format">Dockerfile is not a valid repository/tag: invalid reference format</a></p>
+<p>结论是前端的Dockerfile使用了<a target="_blank" rel="noopener" href="https://docs.docker.com/develop/develop-images/multistage-build/">multi-stage builds(多阶段构建)</a>，而这个特性是在docker的17.06版本引入的。而我本地的docker是20多，绰绰有余。于是赶紧问甲方机器docker版本，<del>说实话我本来以为也就是低了一两个版本</del>，万万没想到甲方的机器居然是1.13.1啊！！！多么古老的版本！反正最后升了一下级就可以正常build了。</p>
+<p>都写到这了，主要是顺带学习一下这个多阶段构建，之前的Dockerfile基本都是cv之前其他项目的，只学习了里面的命令，没有注意到这个多阶段构建。感觉别人总结的挺好的就不想重新写一遍了，指路：<a target="_blank" rel="noopener" href="https://blog.csdn.net/hjxisking/article/details/108203294">Dockerfile的多阶段构建（multi-stage builds）</a>。当然英语好的也可以直接看上面那个官方文档。</p>
+<p>对于前端来说在构建时使用了node，但实际运行起来也就是一堆静态的js文件，很适合用多阶段构建来减少镜像体积。我感觉只要是有编译并且运行时不依赖编译环境的情况好像都挺适合多阶段构建的，是一个用来拯救动辄打一个g镜像的好办法。<del>但我们后端用的python啊</del></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://icey0126.github.io/2022/03/05/%E9%9A%94%E7%A6%BB%E7%9C%9F%E7%9A%84%E5%A5%BD%E6%97%A0%E8%81%8A/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -342,7 +422,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-24 21:15:04" itemprop="dateModified" datetime="2021-11-24T21:15:04+08:00">2021-11-24</time>
+                <time title="修改时间：2022-03-25 21:56:37" itemprop="dateModified" datetime="2022-03-25T21:56:37+08:00">2022-03-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -351,6 +431,10 @@
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/CS/" itemprop="url" rel="index"><span itemprop="name">CS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS/%E9%83%A8%E7%BD%B2/" itemprop="url" rel="index"><span itemprop="name">部署</span></a>
                 </span>
             </span>
 
@@ -1011,20 +1095,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

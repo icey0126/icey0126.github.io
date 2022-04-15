@@ -161,6 +161,157 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://icey0126.github.io/2022/04/11/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Springhead">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Springhead">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/11/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">微服务学习笔记1</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-11 23:41:41" itemprop="dateCreated datePublished" datetime="2022-04-11T23:41:41+08:00">2022-04-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-16 01:37:54" itemprop="dateModified" datetime="2022-04-16T01:37:54+08:00">2022-04-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS/" itemprop="url" rel="index"><span itemprop="name">CS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS/%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">架构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>隔离太痛苦了决定学点感兴趣的东西。最近在看一些关于微服务的东西。</p>
+<p>这几天在看一个极客时间上的老课，记一点看不懂+看得懂的笔记，基本是拿来当关键词搜索用的。课的地址<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/intro/100014401?tab=catalog">课程目录</a>。</p>
+<h3 id="1-数据库"><a href="#1-数据库" class="headerlink" title="1.数据库"></a>1.数据库</h3><blockquote>
+<ul>
+<li>微服务会拆分数据库，每个微服务对自己的数据库的数据做增删改操作。对于有关联关系的查询操作：一是可以冗余一些数据，或者建宽表，或通过es来进行；二是服务要提供粗粒度的查询接口（批量查询），而不是循环调用rpc。</li>
+</ul>
+</blockquote>
+<br/>
+
+<h3 id="2-服务的定义、服务的发布和订阅、服务的监控、服务的治理、故障的定位"><a href="#2-服务的定义、服务的发布和订阅、服务的监控、服务的治理、故障的定位" class="headerlink" title="2.服务的定义、服务的发布和订阅、服务的监控、服务的治理、故障的定位"></a>2.服务的定义、服务的发布和订阅、服务的监控、服务的治理、故障的定位</h3><h3 id="3-拆分"><a href="#3-拆分" class="headerlink" title="3.拆分"></a>3.拆分</h3><blockquote>
+<ul>
+<li>建议的标准是按照每个开发人员负责不超过 3 个大的服务为标准，毕竟每个人的精力是有限的，所以在拆分微服务时，可以按照开发人员的总人数来决定。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>性能聚类，性能要求高的并发大的和性能要求低的并发小的，要分开为不同的服务，这样部署和运行都独立，好维护。</li>
+</ul>
+</blockquote>
+<br/>
+
+<h3 id="4-跨服务事务的一致性问题-分布式事务"><a href="#4-跨服务事务的一致性问题-分布式事务" class="headerlink" title="4.跨服务事务的一致性问题(分布式事务)"></a>4.跨服务事务的一致性问题(分布式事务)</h3><blockquote>
+<ul>
+<li>简单的跨微服务间调用，TCC模式就可以了，如果是异步或长时间执行的调用事务，用SAGA模式。</li>
+</ul>
+</blockquote>
+<br/>
+
+<p><strong>TCC模式：</strong> TCC模式需要用户根据自己的业务场景实现 Try、Confirm 和 Cancel 三个操作；事务发起方在一阶段执行 Try 方式，在二阶段提交执行 Confirm 方法，二阶段回滚执行 Cancel 方法。（两阶段）</p>
+<p><strong>SAGA模式：</strong> 长事务解决方案。冲正。</p>
+<p>1）Choreography（分布式的实现方式）：通过事件机制实现的，每个服务都监听自己所关心的事件，每个服务执行后会发送相应的事件，监听此事件的服务执行相应的处理逻辑。<br>2）Orchestration（集中式的实现方式）：是通过状态机来实现的整体控制，定义整体的处理流程，不同状态下需要触发的动作。</p>
+<br/>
+
+<h3 id="5-用户端监控（功能业务）、接口监控、资源监控（api依赖的资源，如redis）、基础监控（机器资源）。Prometheus、Dubbo、Flower。"><a href="#5-用户端监控（功能业务）、接口监控、资源监控（api依赖的资源，如redis）、基础监控（机器资源）。Prometheus、Dubbo、Flower。" class="headerlink" title="5.用户端监控（功能业务）、接口监控、资源监控（api依赖的资源，如redis）、基础监控（机器资源）。Prometheus、Dubbo、Flower。"></a>5.用户端监控（功能业务）、接口监控、资源监控（api依赖的资源，如redis）、基础监控（机器资源）。Prometheus、Dubbo、Flower。</h3><h3 id="6-服务发布和引用的那些坑"><a href="#6-服务发布和引用的那些坑" class="headerlink" title="6.服务发布和引用的那些坑"></a>6.服务发布和引用的那些坑</h3><blockquote>
+<ul>
+<li>在一个服务被多个服务消费者引用的情况下，由于业务经验的参差不齐，可能不同的服务消费者对服务的认知水平不一，比如某个服务可能调用超时了，最好可以重试来提供调用成功率。但可能有的服务消费者会忽视这一点，并没有在服务引用配置文件中配置接口调用超时重试的次数，因此最好是可以在服务发布的配置文件中预定义好类似超时重试次数，即使服务消费者没有在服务引用配置文件中定义，也能继承服务提供者的定义。</li>
+</ul>
+</blockquote>
+<br/>
+
+<h3 id="7-K8S的服务注册"><a href="#7-K8S的服务注册" class="headerlink" title="7.K8S的服务注册"></a>7.K8S的服务注册</h3><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1880454">K8S的服务注册和发现</a></p>
+<br/>
+
+<h3 id="8-监控系统实现方案"><a href="#8-监控系统实现方案" class="headerlink" title="8.监控系统实现方案"></a>8.监控系统实现方案</h3><blockquote>
+<ul>
+<li>日志监控推荐用ELK</li>
+<li>Metrics参数监控推荐用promethus+gafana</li>
+<li>调用链监控推荐用skywalking</li>
+<li>业务监控推荐用业务开发+gafana</li>
+</ul>
+</blockquote>
+<br/>
+
+<h3 id="9-服务调用失败都有哪些处理手段"><a href="#9-服务调用失败都有哪些处理手段" class="headerlink" title="9.服务调用失败都有哪些处理手段"></a>9.服务调用失败都有哪些处理手段</h3><p><strong>超时</strong>：以 99.9% 或者 99.99% 的调用都在多少毫秒内返回为准。<br/><br><strong>重试</strong><br/><br><strong>双发</strong>：P90，备份请求要设置一个最大重试比例，最大重试比例可以设置成15%。<br/><br><strong>熔断</strong>：服务调用失败的次数达到一定阈值，那么断路器就会被触发，后续的服务调用就直接返回，也就不会再向服务提供者发起请求了。<br><br/><br><br/></p>
+<blockquote>
+<ul>
+<li>（1）线程池隔离模式：使用一个线程池来存储当前的请求，线程池对请求作处理，设置任务返回处理超时时间，堆积的请求堆积入线程池队列。这种方式需要为每个依赖的服务申请线程池，有一定的资源消耗，好处是可以应对突发流量（流量洪峰来临时，处理不完可将数据存储到线程池队里慢慢处理）</li>
+<li>（2）信号量隔离模式：使用一个原子计数器（或信号量）来记录当前有多少个线程在运行，请求来先判断计数器的数值，若超过设置的最大线程个数则丢弃改类型的新请求，若不超过则执行计数操作请求来计数器+1，请求返回计数器-1。这种方式是严格的控制线程且立即返回模式，无法应对突发流量（流量洪峰来临时，处理的线程超过数量，其他的请求会直接返回，不继续去请求依赖的服务）<br/></li>
+</ul>
+</blockquote>
+<h3 id="10-微服务容量规划（扩容计算）"><a href="#10-微服务容量规划（扩容计算）" class="headerlink" title="10.微服务容量规划（扩容计算）"></a>10.微服务容量规划（<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/44118">扩容计算</a>）</h3><ul>
+<li><blockquote>
+<p>多加一个冗余字段，标识这是压测数据，压测结束后清理就行了，或者数据本来就有标识。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>数据库方面因为实现自动扩缩容的难度太大，我们目前是留有足够的冗余度，核心数据库都是4倍冗余</p>
+</blockquote>
+</li>
+</ul>
+<br/>
+
+<h3 id="11-多机房部署"><a href="#11-多机房部署" class="headerlink" title="11.多机房部署"></a>11.多机房部署</h3><p><strong>主从机房架构:</strong> 把所有的写请求都发给主机房，由主机房来负责写所有机房的缓存和本机房的数据库，而其他机房的数据库则通过 MySQL 的 binlog 同步机制实现数据同步。<br/><br><strong>独立机房架构:</strong> 联通和电信机房都有写请求，并通过一个叫 WMB 的消息同步组件把各自机房的写请求同步一份给对方机房，这样的话相当于每个机房都有全量的写请求。每个机房的处理机接收到写请求后更新各自机房的缓存，只有一个机房会更新数据库，其他机房的数据库通过 MySQL 的 binlog 同步机制实现数据同步。</p>
+<p><strong>数据一致性：</strong> 通过定时任务扫描es，通过比较不同机房相同requestid对应的处理状态，如果相同数据一致不做处理。如果不一致，进行重拾操作，达到一致。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://icey0126.github.io/2022/04/05/%E6%9D%82%E4%B9%A6%E8%AF%BB%E5%90%8E%E6%84%9F%E5%90%88%E9%9B%861/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1024,89 +1175,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://icey0126.github.io/2021/05/16/function/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-      <meta itemprop="name" content="Springhead">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Springhead">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/16/function/" class="post-title-link" itemprop="url">hexo启动失败：line.matchAll is not a function</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-16 15:59:36" itemprop="dateCreated datePublished" datetime="2021-05-16T15:59:36+08:00">2021-05-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-17 16:31:29" itemprop="dateModified" datetime="2021-07-17T16:31:29+08:00">2021-07-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CS/" itemprop="url" rel="index"><span itemprop="name">CS</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>之前是输入 hexo 命令是可以正常启动的，今天试着写第一篇文章发现hexo的命令都用不了，会报下面这个错。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">(node:28558) ExperimentalWarning: The fs.promises API is experimental</span><br><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">FATAL &#123; err:</span><br><span class="line">   TypeError: line.matchAll is not a <span class="keyword">function</span></span><br><span class="line">       at res.value.res.value.split.map.line (/blog/blog/node_modules/hexo-util/lib/highlight.js:128:26)</span><br><span class="line">       at Array.map (&lt;anonymous&gt;)</span><br><span class="line">       at closeTags (/blog/blog/node_modules/hexo-util/lib/highlight.js:126:37)</span><br><span class="line">       at highlight (/blog/blog/node_modules/hexo-util/lib/highlight.js:119:10)</span><br><span class="line">       at highlightUtil (/blog/blog/node_modules/hexo-util/lib/highlight.js:23:16)</span><br><span class="line">       at data.content.dataContent.replace (/blog/blog/node_modules/hexo/lib/plugins/filter/before_post_render/backtick_code_block.js:92:17)</span><br><span class="line">       at String.replace (&lt;anonymous&gt;)</span><br><span class="line">       at Hexo.backtickCodeBlock (/blog/blog/node_modules/hexo/lib/plugins/filter/before_post_render/backtick_code_block.js:19:30)</span><br><span class="line">       at Hexo.tryCatcher (/blog/blog/node_modules/bluebird/js/release/util.js:16:23)</span><br><span class="line">       at Hexo.&lt;anonymous&gt; (/blog/blog/node_modules/bluebird/js/release/method.js:15:34)</span><br><span class="line">       at Promise.each.filter (/blog/blog/node_modules/hexo/lib/extend/filter.js:67:52)</span><br><span class="line">       at tryCatcher (/blog/blog/node_modules/bluebird/js/release/util.js:16:23)</span><br><span class="line">       at Object.gotValue (/blog/blog/node_modules/bluebird/js/release/reduce.js:166:18)</span><br><span class="line">       at Object.gotAccum (/blog/blog/node_modules/bluebird/js/release/reduce.js:155:25)</span><br><span class="line">       at Object.tryCatcher (/blog/blog/node_modules/bluebird/js/release/util.js:16:23)</span><br><span class="line">       at Promise._settlePromiseFromHandler (/blog/blog/node_modules/bluebird/js/release/promise.js:547:31)</span><br><span class="line">       at Promise._settlePromise (/blog/blog/node_modules/bluebird/js/release/promise.js:604:18)</span><br><span class="line">       at Promise._settlePromiseCtx (/blog/blog/node_modules/bluebird/js/release/promise.js:641:10)</span><br><span class="line">       at _drainQueueStep (/blog/blog/node_modules/bluebird/js/release/async.js:97:12)</span><br><span class="line">       at _drainQueue (/blog/blog/node_modules/bluebird/js/release/async.js:86:9)</span><br><span class="line">       at Async._drainQueues (/blog/blog/node_modules/bluebird/js/release/async.js:102:5)</span><br><span class="line">       at Immediate.Async.drainQueues [as _onImmediate] (/blog/blog/node_modules/bluebird/js/release/async.js:15:14) &#125; <span class="string">&#x27;Something\&#x27;</span>s wrong. Maybe you can find the solution here: %s<span class="string">&#x27; &#x27;</span>\u001b[4mhttps://hexo.io/docs/troubleshooting.html\u001b[24m<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>随便搜了一下没发现解决办法，后来想了下可能是node版本问题。<br>因为第一次用hexo启动时我在提示下会切换到 v12.4.0 版本，今天重新开了一个命令行后node版本就不对了，我用的又是比较新的hexo版本，系统默认的node版本又比较旧。</p>
-<p>可以尝试用nvm切换node版本到v12.4.0，下面是我正常启动的版本信息以供参考。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">% hexo -v</span><br><span class="line">INFO  Validating config</span><br><span class="line">hexo: 5.4.0</span><br><span class="line">hexo-cli: 4.2.0</span><br><span class="line">os: Darwin 19.6.0 darwin x64</span><br><span class="line">node: 12.4.0</span><br><span class="line">v8: 7.4.288.27-node.18</span><br><span class="line">uv: 1.29.1</span><br><span class="line">zlib: 1.2.11</span><br><span class="line">brotli: 1.0.7</span><br><span class="line">ares: 1.15.0</span><br><span class="line">modules: 72</span><br><span class="line">nghttp2: 1.38.0</span><br><span class="line">napi: 4</span><br><span class="line">llhttp: 1.1.3</span><br><span class="line">http_parser: 2.8.0</span><br><span class="line">openssl: 1.1.1b</span><br><span class="line">cldr: 35.1</span><br><span class="line">icu: 64.2</span><br><span class="line">tz: 2019a</span><br><span class="line">unicode: 12.1</span><br></pre></td></tr></table></figure>
-
-<p>这实际是一篇测试文章，写的比较简单。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -1173,20 +1246,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
